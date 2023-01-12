@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ETicaretAPI.Application.Repositories;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace ETicaretAPI.Application.Features.Commands.Product.UpdateProduct
 {
@@ -12,6 +13,7 @@ namespace ETicaretAPI.Application.Features.Commands.Product.UpdateProduct
     {
         readonly IProductReadRepository _productReadRepository;
         readonly IProductWriteRepository _productWriteRepository;
+        readonly ILogger<UpdateProductCommandHandler> _logger;
 
         public UpdateProductCommandHandler(IProductReadRepository productReadRepository, IProductWriteRepository productWriteRepository)
         {
@@ -25,6 +27,7 @@ namespace ETicaretAPI.Application.Features.Commands.Product.UpdateProduct
             product.Name = request.Name;
             product.Price = request.Price;
             await _productWriteRepository.SaveAsync();
+            _logger.LogInformation("Ürün güncellendi.");//Log
             return new();
         }
     }
